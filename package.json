@@ -1,0 +1,32 @@
+{
+  "name": "uniswapv3-dataextractorv2.0.0",
+  "version": "2.0.0",
+  "description": "A simple program that concurrently fetches and processes Uniswap V3 Swap events.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node ./src/dataExtractor.js",
+    "start-1gb": "set NODE_OPTIONS=--max-old-space-size=1024 && node ./src/dataExtractor.js",
+    "start-2gb": "set NODE_OPTIONS=--max-old-space-size=2048 && node ./src/dataExtractor.js",
+    "start-3gb": "set NODE_OPTIONS=--max-old-space-size=3072 && node ./src/dataExtractor.js",
+    "start-4gb": "set NODE_OPTIONS=--max-old-space-size=4096 && node ./src/dataExtractor.js",
+    "start-5gb": "set NODE_OPTIONS=--max-old-space-size=5120 && node ./src/dataExtractor.js",
+    "start-6gb": "set NODE_OPTIONS=--max-old-space-size=6144 && node ./src/dataExtractor.js",
+    "start-7gb": "set NODE_OPTIONS=--max-old-space-size=7168 && node ./src/dataExtractor.js",
+    "start-8gb": "set NODE_OPTIONS=--max-old-space-size=8192 && node ./src/dataExtractor.js",
+    "start-9gb": "set NODE_OPTIONS=--max-old-space-size=9216 && node ./src/dataExtractor.js",
+    "start-10gb": "set NODE_OPTIONS=--max-old-space-size=10240 && node ./src/dataExtractor.js",
+    "start-11gb": "set NODE_OPTIONS=--max-old-space-size=11264 && node ./src/dataExtractor.js",
+    "start-12gb": "set NODE_OPTIONS=--max-old-space-size=12288 && node ./src/dataExtractor.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Daniel Chrostowski",
+  "license": "MIT",
+  "dependencies": {
+    "bottleneck": "^2.19.5",
+    "cli-progress": "^3.12.0",
+    "dotenv": "^16.4.5",
+    "ethers": "^6.12.1",
+    "pg": "^8.11.5"
+  }
+}
