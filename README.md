@@ -112,6 +112,27 @@ npm run start-12gb
 
 Each command sets the `--max-old-space-size` option to a different value, in megabytes. For example, `npm run start-1gb` sets the maximum heap size to 1024 MB, `npm run start-2gb` sets it to 2048 MB, and so on.
 
+## Future Updates
+
+Here are some ideas for future updates that can improve the program:
+
+1. **Resume Progress with Existing Database Entries**
+
+   - **Description**: If a database already exists with entries, the program should be able to verify those entries and resume progress from the last processed block.
+   - **Benefit**: This feature would make the program more robust and resilient, allowing it to continue processing data seamlessly after interruptions or restarts.
+   - **Implementation**: Implement logic to check the highest block number already processed in the database and start fetching from the next block.
+
+2. **Continuous Sync from Oldest to Newest Blocks**
+
+   - **Description**: The program should fetch data starting from the oldest block and sync up to the most recent block, then continue running in real-time by fetching new blocks as they are produced.
+   - **Benefit**: This would ensure that the database has a complete record of swap events from the entire history of the blockchain, and it stays up-to-date with new events.
+   - **Implementation**: Implement a loop that fetches historical data and, once caught up, switches to real-time data fetching using WebSocket or polling mechanisms.
+
+3. **Turn Program into REST Endpoints**
+   - **Description**: Transform the program into a set of REST endpoints that can be queried to fetch data, start/stop data fetching, and check the status of the sync process.
+   - **Benefit**: Exposing the program as a REST API would make it more versatile and easier to integrate with other applications and services.
+   - **Implementation**: Use a web framework like Express.js to create RESTful endpoints that interact with the data fetching logic and the PostgreSQL database.
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit pull requests or create issues for bugs, questions, and feature requests.
