@@ -144,6 +144,19 @@ function getRange(medianPrice, percentageBounds = 0.1) {
   };
 }
 
+// Retry function with delay
+async function retryWithDelay(fn, retries = 3, delay = 1000) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      return await fn();
+    } catch (error) {
+      if (i === retries - 1) throw error;
+      console.error(`Error occurred, retrying in ${delay}ms...`, error);
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
+  }
+}
+
 // Handled for even chunk distributions, not odd
 async function getSwapEvents(
   index,
@@ -168,8 +181,11 @@ async function getSwapEvents(
       currentEndBlock - providers[index].chunkSize + 1,
       startBlock
     );
-    const events = await providers[index].limiter.schedule(() =>
-      contracts[index].queryFilter(filter, currentStartBlock, currentEndBlock)
+
+    const events = await retryWithDelay(() =>
+      providers[index].limiter.schedule(() =>
+        contracts[index].queryFilter(filter, currentStartBlock, currentEndBlock)
+      )
     );
     //console.log(currentStartBlock, " ", currentEndBlock);
 
@@ -242,19 +258,21 @@ async function getBlockTimestamps(index, blockNumbers, progressBar) {
 
   await Promise.all(
     blockNumbers.map((blockNumber) =>
-      providers[index].limiter.schedule(() =>
-        providers[index].provider.getBlock(blockNumber).then((block) => {
-          blockTimestamps[blockNumber] = block.timestamp;
-          const heapUsedInBytes = process.memoryUsage().heapUsed;
-          const heapUsedInMegabytes = (heapUsedInBytes / (1024 * 1024)).toFixed(
-            2
-          );
-          progressBar.increment(0, { heapUsed: heapUsedInMegabytes });
-        })
+      retryWithDelay(() =>
+        providers[index].limiter.schedule(() =>
+          providers[index].provider.getBlock(blockNumber).then((block) => {
+            blockTimestamps[blockNumber] = block.timestamp;
+            const heapUsedInBytes = process.memoryUsage().heapUsed;
+            const heapUsedInMegabytes = (
+              heapUsedInBytes /
+              (1024 * 1024)
+            ).toFixed(2);
+            progressBar.increment(0, { heapUsed: heapUsedInMegabytes });
+          })
+        )
       )
     )
   );
-
   //progressBar.stop();
   return blockTimestamps;
 }
