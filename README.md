@@ -22,56 +22,95 @@ Before you start, ensure you have the following installed:
 
 ## Installation
 
-1. **Clone the repository:**
+### Clone the Repository
 
-   ```bash
-   git clone https://github.com/your-repo/nyc-node-uniswapv3.git
-   cd nyc-node-uniswapv3
-   ```
-
-2. **Install dependencies:**
-
-   ```bash
-   npm install
-   ```
-
-3. **Set up the environment variables:**
-
-   Create a `.env` file in the project root and update the following values:
-
-   ```plaintext
-   DATABASE_URL=postgres://username:password@localhost:5432/uniswapv3usdcweth
-   WEBSOCKET_URLS=["wss://polygon-mainnet.infura.io/ws/v3/your-api-tey"]
-   RATE_LIMITS=[100]
-   CHUNK_SIZES=[1000]
-   MAX_CONCURRENT=[20]
-   ```
-
-## Database Setup
-
-Run the following command to set up the PostgreSQL database schema:
-
-```bash
-npm run setup-db
+```sh
+git clone https://github.com/dannychrost/UniswapV3-DataExtractor.git
+cd ./UniswapV3-DataExtractor
 ```
 
-This script will connect to your PostgreSQL database and create the necessary tables and indices for storing the swap events.
+### Install Dependencies
+
+```sh
+npm install
+```
+
+### Set Up Environment Variables
+
+Create a `.env` file in the project root and update the following values:
+
+```sh
+DATABASE_URL=postgres://username:password@localhost:5432/uniswapv3usdcweth
+WEBSOCKET_URLS=["wss://polygon-mainnet.infura.io/ws/v3/your-api-key"]
+RATE_LIMITS=[100]
+CHUNK_SIZES=[1000]
+MAX_CONCURRENT=[20]
+```
+
+### Database Setup
+
+#### Create the PostgreSQL Database and User
+
+1. Connect to PostgreSQL:
+
+   ```sh
+   psql -U postgres
+   ```
+
+2. Create a new database:
+
+   ```sql
+   CREATE DATABASE uniswapv3usdcweth;
+   ```
+
+3. Create a new user and grant privileges:
+
+   ```sql
+   CREATE USER your_username WITH ENCRYPTED PASSWORD 'your_password';
+   GRANT ALL PRIVILEGES ON DATABASE uniswapv3usdcweth TO your_username;
+   ```
+
+4. Connect to the database and grant privileges on all tables:
+   ```sh
+   \c uniswapv3usdcweth;
+   GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO your_username;
+   GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO your_username;
+   ```
 
 ## Usage
 
 To start fetching and processing swap events, run:
 
-```bash
+```sh
 npm start
 ```
 
 You can specify the range of blocks to process as a command-line argument:
 
-```bash
+```sh
 npm start -- --blocks-back=50000
 ```
 
 This command will process the last 50,000 blocks.
+
+If you need to increase the maximum heap size for Node.js, you can use one of the following commands:
+
+```sh
+npm run start-1gb
+npm run start-2gb
+npm run start-3gb
+npm run start-4gb
+npm run start-5gb
+npm run start-6gb
+npm run start-7gb
+npm run start-8gb
+npm run start-9gb
+npm run start-10gb
+npm run start-11gb
+npm run start-12gb
+```
+
+Each command sets the `--max-old-space-size` option to a different value, in megabytes. For example, `npm run start-1gb` sets the maximum heap size to 1024 MB, `npm run start-2gb` sets it to 2048 MB, and so on.
 
 ## Contributing
 
@@ -79,4 +118,4 @@ Contributions are welcome! Please feel free to submit pull requests or create is
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+This project is licensed under the MIT License - see the LICENSE.md file for details.
