@@ -15,9 +15,9 @@ The NYC Node Uniswap V3 Data Extractor is a robust Node.js application designed 
 
 Before you start, ensure you have the following installed:
 
-- Node.js (v14.x or newer)
+- Node.js (v20.14.0 or newer)
 - npm or yarn
-- PostgreSQL (v12.x or newer)
+- PostgreSQL (v16 or newer)
 - A proper setup of the Node environment with access to Ethereum nodes (via WebSocket URLs)
 
 ## Installation
@@ -80,8 +80,3 @@ Contributions are welcome! Please feel free to submit pull requests or create is
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
-
-## Acknowledgments
-
-- Thanks to Alchemy and Infura for providing access to the Ethereum nodes.
-- Special thanks to the Uniswap team for their open and well-documented smart contracts.
